@@ -1,0 +1,13 @@
+# Data generation and manipulation
+faker==22.0.0
+
+# Future pipeline requirements (for reference)
+pandas==2.1.4
+polars==0.20.3
+pyspark==3.5.0
+
+# Data validation
+great-expectations==0.18.8
+
+# Utilities
+python-dateutil==2.8.2

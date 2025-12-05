@@ -1,0 +1,88 @@
+{
+  "format-version" : 2,
+  "table-uuid" : "3c625e67-ce79-478b-b91d-ca0587980488",
+  "location" : "/Users/vlujanr/Projects/playground/reto_kashio/data/lakehouse/silver/users_dim",
+  "last-sequence-number" : 1,
+  "last-updated-ms" : 1764895093681,
+  "last-column-id" : 5,
+  "current-schema-id" : 0,
+  "schemas" : [ {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "user_id",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 2,
+      "name" : "signup_date",
+      "required" : false,
+      "type" : "date"
+    }, {
+      "id" : 3,
+      "name" : "device_type",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 4,
+      "name" : "country",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 5,
+      "name" : "processing_timestamp",
+      "required" : false,
+      "type" : "timestamptz"
+    } ]
+  } ],
+  "default-spec-id" : 0,
+  "partition-specs" : [ {
+    "spec-id" : 0,
+    "fields" : [ ]
+  } ],
+  "last-partition-id" : 999,
+  "default-sort-order-id" : 0,
+  "sort-orders" : [ {
+    "order-id" : 0,
+    "fields" : [ ]
+  } ],
+  "properties" : {
+    "owner" : "vlujanr",
+    "write.parquet.compression-codec" : "zstd"
+  },
+  "current-snapshot-id" : 8785666738543271801,
+  "refs" : {
+    "main" : {
+      "snapshot-id" : 8785666738543271801,
+      "type" : "branch"
+    }
+  },
+  "snapshots" : [ {
+    "sequence-number" : 1,
+    "snapshot-id" : 8785666738543271801,
+    "timestamp-ms" : 1764895093681,
+    "summary" : {
+      "operation" : "append",
+      "spark.app.id" : "local-1764895086775",
+      "added-data-files" : "1",
+      "added-records" : "100",
+      "added-files-size" : "2127",
+      "changed-partition-count" : "1",
+      "total-records" : "100",
+      "total-files-size" : "2127",
+      "total-data-files" : "1",
+      "total-delete-files" : "0",
+      "total-position-deletes" : "0",
+      "total-equality-deletes" : "0"
+    },
+    "manifest-list" : "/Users/vlujanr/Projects/playground/reto_kashio/data/lakehouse/silver/users_dim/metadata/snap-8785666738543271801-1-bd8ba69f-0a1e-47e6-98be-0e2709c5204b.avro",
+    "schema-id" : 0
+  } ],
+  "statistics" : [ ],
+  "snapshot-log" : [ {
+    "timestamp-ms" : 1764895093681,
+    "snapshot-id" : 8785666738543271801
+  } ],
+  "metadata-log" : [ ]
+}

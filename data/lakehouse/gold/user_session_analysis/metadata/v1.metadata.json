@@ -1,0 +1,183 @@
+{
+  "format-version" : 2,
+  "table-uuid" : "1a850cea-48f8-480f-bd1f-5f7eb7f2a33c",
+  "location" : "/Users/vlujanr/Projects/playground/reto_kashio/data/lakehouse/gold/user_session_analysis",
+  "last-sequence-number" : 1,
+  "last-updated-ms" : 1764895098412,
+  "last-column-id" : 23,
+  "current-schema-id" : 0,
+  "schemas" : [ {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "user_id",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 2,
+      "name" : "session_id",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 3,
+      "name" : "signup_date",
+      "required" : false,
+      "type" : "date"
+    }, {
+      "id" : 4,
+      "name" : "device_type",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 5,
+      "name" : "country",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 6,
+      "name" : "session_start_time",
+      "required" : false,
+      "type" : "timestamptz"
+    }, {
+      "id" : 7,
+      "name" : "session_end_time",
+      "required" : false,
+      "type" : "timestamptz"
+    }, {
+      "id" : 8,
+      "name" : "session_duration_seconds",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 9,
+      "name" : "session_date",
+      "required" : false,
+      "type" : "date"
+    }, {
+      "id" : 10,
+      "name" : "total_events",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 11,
+      "name" : "event_types",
+      "required" : false,
+      "type" : {
+        "type" : "list",
+        "element-id" : 23,
+        "element" : "string",
+        "element-required" : false
+      }
+    }, {
+      "id" : 12,
+      "name" : "first_event_type",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 13,
+      "name" : "last_event_type",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 14,
+      "name" : "transaction_id",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 15,
+      "name" : "transaction_amount",
+      "required" : false,
+      "type" : "decimal(10, 2)"
+    }, {
+      "id" : 16,
+      "name" : "transaction_currency",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 17,
+      "name" : "transaction_timestamp",
+      "required" : false,
+      "type" : "timestamptz"
+    }, {
+      "id" : 18,
+      "name" : "has_transaction",
+      "required" : false,
+      "type" : "boolean"
+    }, {
+      "id" : 19,
+      "name" : "time_to_purchase_seconds",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 20,
+      "name" : "processing_timestamp",
+      "required" : false,
+      "type" : "timestamptz"
+    }, {
+      "id" : 21,
+      "name" : "data_version",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 22,
+      "name" : "source_system",
+      "required" : false,
+      "type" : "string"
+    } ]
+  } ],
+  "default-spec-id" : 0,
+  "partition-specs" : [ {
+    "spec-id" : 0,
+    "fields" : [ {
+      "name" : "session_date",
+      "transform" : "identity",
+      "source-id" : 9,
+      "field-id" : 1000
+    } ]
+  } ],
+  "last-partition-id" : 1000,
+  "default-sort-order-id" : 0,
+  "sort-orders" : [ {
+    "order-id" : 0,
+    "fields" : [ ]
+  } ],
+  "properties" : {
+    "owner" : "vlujanr",
+    "write.parquet.compression-codec" : "zstd"
+  },
+  "current-snapshot-id" : 7904815908308822525,
+  "refs" : {
+    "main" : {
+      "snapshot-id" : 7904815908308822525,
+      "type" : "branch"
+    }
+  },
+  "snapshots" : [ {
+    "sequence-number" : 1,
+    "snapshot-id" : 7904815908308822525,
+    "timestamp-ms" : 1764895098412,
+    "summary" : {
+      "operation" : "append",
+      "spark.app.id" : "local-1764895086775",
+      "added-data-files" : "91",
+      "added-records" : "487",
+      "added-files-size" : "649829",
+      "changed-partition-count" : "91",
+      "total-records" : "487",
+      "total-files-size" : "649829",
+      "total-data-files" : "91",
+      "total-delete-files" : "0",
+      "total-position-deletes" : "0",
+      "total-equality-deletes" : "0"
+    },
+    "manifest-list" : "/Users/vlujanr/Projects/playground/reto_kashio/data/lakehouse/gold/user_session_analysis/metadata/snap-7904815908308822525-1-26802f05-ae8e-4635-8ad3-89a192a28fcc.avro",
+    "schema-id" : 0
+  } ],
+  "statistics" : [ ],
+  "snapshot-log" : [ {
+    "timestamp-ms" : 1764895098412,
+    "snapshot-id" : 7904815908308822525
+  } ],
+  "metadata-log" : [ ]
+}

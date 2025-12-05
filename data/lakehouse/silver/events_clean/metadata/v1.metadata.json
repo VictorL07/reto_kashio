@@ -1,0 +1,151 @@
+{
+  "format-version" : 2,
+  "table-uuid" : "05e0e95b-5343-4d35-932c-a38f190139f0",
+  "location" : "/Users/vlujanr/Projects/playground/reto_kashio/data/lakehouse/silver/events_clean",
+  "last-sequence-number" : 1,
+  "last-updated-ms" : 1764895091569,
+  "last-column-id" : 17,
+  "current-schema-id" : 0,
+  "schemas" : [ {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "event_id",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 2,
+      "name" : "session_id",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 3,
+      "name" : "user_id",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 4,
+      "name" : "event_type",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 5,
+      "name" : "event_timestamp",
+      "required" : false,
+      "type" : "timestamptz"
+    }, {
+      "id" : 6,
+      "name" : "event_details",
+      "required" : false,
+      "type" : {
+        "type" : "struct",
+        "fields" : [ {
+          "id" : 8,
+          "name" : "action",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "id" : 9,
+          "name" : "element_id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "id" : 10,
+          "name" : "element_type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "id" : 11,
+          "name" : "page_url",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "id" : 12,
+          "name" : "price",
+          "required" : false,
+          "type" : "double"
+        }, {
+          "id" : 13,
+          "name" : "product_id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "id" : 14,
+          "name" : "quantity",
+          "required" : false,
+          "type" : "long"
+        }, {
+          "id" : 15,
+          "name" : "referrer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "id" : 16,
+          "name" : "results_count",
+          "required" : false,
+          "type" : "long"
+        }, {
+          "id" : 17,
+          "name" : "search_query",
+          "required" : false,
+          "type" : "string"
+        } ]
+      }
+    }, {
+      "id" : 7,
+      "name" : "processing_timestamp",
+      "required" : false,
+      "type" : "timestamptz"
+    } ]
+  } ],
+  "default-spec-id" : 0,
+  "partition-specs" : [ {
+    "spec-id" : 0,
+    "fields" : [ ]
+  } ],
+  "last-partition-id" : 999,
+  "default-sort-order-id" : 0,
+  "sort-orders" : [ {
+    "order-id" : 0,
+    "fields" : [ ]
+  } ],
+  "properties" : {
+    "owner" : "vlujanr",
+    "write.parquet.compression-codec" : "zstd"
+  },
+  "current-snapshot-id" : 1118000579875658937,
+  "refs" : {
+    "main" : {
+      "snapshot-id" : 1118000579875658937,
+      "type" : "branch"
+    }
+  },
+  "snapshots" : [ {
+    "sequence-number" : 1,
+    "snapshot-id" : 1118000579875658937,
+    "timestamp-ms" : 1764895091569,
+    "summary" : {
+      "operation" : "append",
+      "spark.app.id" : "local-1764895086775",
+      "added-data-files" : "1",
+      "added-records" : "2000",
+      "added-files-size" : "31535",
+      "changed-partition-count" : "1",
+      "total-records" : "2000",
+      "total-files-size" : "31535",
+      "total-data-files" : "1",
+      "total-delete-files" : "0",
+      "total-position-deletes" : "0",
+      "total-equality-deletes" : "0"
+    },
+    "manifest-list" : "/Users/vlujanr/Projects/playground/reto_kashio/data/lakehouse/silver/events_clean/metadata/snap-1118000579875658937-1-e708d1fd-3da9-49e7-81d6-eb5da5133ed9.avro",
+    "schema-id" : 0
+  } ],
+  "statistics" : [ ],
+  "snapshot-log" : [ {
+    "timestamp-ms" : 1764895091569,
+    "snapshot-id" : 1118000579875658937
+  } ],
+  "metadata-log" : [ ]
+}
