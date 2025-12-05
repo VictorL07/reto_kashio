@@ -1,5 +1,7 @@
 # PARTE 1: Arquitectura
 
+<img width="1781" height="900" alt="arquitectura_datos_reto-Página-4 drawio" src="https://github.com/user-attachments/assets/5428fe76-1da0-4ea3-8c2b-3b90a002668b" />
+
 ## 1. Selección de Componentes
 
 ### Ingesta de Datos
