@@ -212,78 +212,155 @@ Si las reglas fallan, el job falla y se dispara la alerta. Preferimos fallar rá
 
 **Total: ~$250/mes** para una plataforma de datos completa. Escalable y serverless.
 
-# Mock Data Generator - Digital Services Inc.
+# Parte 2: Prototipo
 
-Generador de datos de prueba para el reto técnico de Data Engineering.
+Prueba para el reto técnico de Data Engineering.
 
-## 📋 Descripción
-
-Este script genera datos simulados para tres fuentes:
-
-1. **Usuarios (Dimensional)** - `users.csv`
-   - user_id, signup_date, device_type, country
-
-2. **Eventos de App (Streaming)** - `events.jsonl`
-   - event_id, session_id, user_id, event_type, event_timestamp, event_details
-
-3. **Transacciones (Batch)** - `transactions.csv`
-   - transaction_id, session_id, user_id, amount, currency, transaction_timestamp
+## 📁 Estructura del Proyecto
+```
+reto_kashio/
+├── data/
+│   ├── generator/              # Generador de datos mock
+│   │   ├── data_test/          # Datos generados
+│   │   │   ├── events.json
+│   │   │   ├── transactions.csv
+│   │   │   └── users.csv
+│   │   ├── config.ini          # Configuración del generador
+│   │   ├── main_source.py      # Script principal
+│   └── lakehouse/              # Data Lake local
+│       ├── bronze/             # Raw data
+│       ├── silver/             # Clean data (Iceberg)
+│       └── gold/               # Analytics (Iceberg)
+├── src/
+│   ├── config/
+│   │   └── spark_config.py     # Configuración Spark + Iceberg
+│   ├── jobs/
+│   │   ├── bronze_to_silver_events.py
+│   │   ├── bronze_to_silver_transactions.py
+│   │   ├── bronze_to_silver_users.py
+│   │   └── silver_to_gold.py
+│   ├── utils/
+│   │   ├── logger.py           # Logger con colores
+│   │   ├── data_quality.py     # Validaciones DQ
+│   │   └── iceberg_utils.py    # Helpers Iceberg
+│   └── pipeline.py             # Orquestador
+├── tests/
+├── notebooks/
+├── jars/                       # Iceberg JAR
+├── README.md
+├── requirements.txt
+└── run_pipeline.sh             # Script de ejecución completo
+```
 
 ## 🚀 Instalación y Uso
 
-### Instalación
+### Prerequisitos
 
+- Python 3.8+
+- Java 11+ (para PySpark)
+
+### 1. Clonar repositorio
 ```bash
-# Crear entorno virtual (recomendado)
+git clone 
+cd reto_kashio
+```
+### 2. Crear ambiente virtual
+```bash
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate  # Windows
+```
 
-# Instalar dependencias
+### 3. Instalar dependencias
+```bash
 pip install -r requirements.txt
 ```
 
-### Ejecución
-
+### 4. Descargar Iceberg JAR
 ```bash
-# Generar datos con configuración por defecto
-python generate_mock_data.py
+mkdir -p jars
+cd jars
+wget https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.4.3/iceberg-spark-runtime-3.5_2.12-1.4.3.jar
+cd ..
 ```
 
-Los archivos se generarán en el directorio `data/`:
+O descarga manual desde: [Maven Repository](https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.4.3/)
+
+
+## 🎯 Ejecución
+
+### Opción 1: Pipeline completo (Recomendado)
+```bash
+chmod +x run_pipeline.sh
+./run_pipeline.sh
 ```
-data/
-├── users.csv
-├── events.jsonl
-└── transactions.csv
+
+Este script:
+1. ✅ Genera datos mock con escenarios de calidad
+2. ✅ Copia datos a Bronze layer
+3. ✅ Ejecuta transformaciones Bronze → Silver → Gold
+4. ✅ Valida resultados
+
+### Opción 2: Ejecutar por etapas
+
+#### Generar datos mock
+```bash
+cd data/generator
+python main_source.py
+cd ../..
 ```
 
-## ⚙️ Configuración
+#### Copiar a Bronze
+```bash
+mkdir -p data/lakehouse/bronze/{events,transactions,users}
+cp data/generator/data_test/events.json data/lakehouse/bronze/events/
+cp data/generator/data_test/transactions.csv data/lakehouse/bronze/transactions/
+cp data/generator/data_test/users.csv data/lakehouse/bronze/users/
+```
 
-Puedes modificar los parámetros en `config.ini`:
+#### Ejecutar transformaciones
+```bash
+# Bronze → Silver
+python src/jobs/bronze_to_silver_events.py
+python src/jobs/bronze_to_silver_transactions.py
+python src/jobs/bronze_to_silver_users.py
 
+# Silver → Gold
+python src/jobs/silver_to_gold.py
+```
+
+#### Pipeline completo
+```bash
+python src/pipeline.py
+```
+
+## 📊 Generador de Datos Mock
+
+### Configuración
+
+Edita `data/generator/config.ini`:
 ```ini
 [data_volumes]
-num_users = 100          # Número de usuarios a generar
+num_users = 100          # Número de usuarios
 num_sessions = 500       # Número de sesiones
 num_events = 2000        # Número de eventos
 num_transactions = 300   # Número de transacciones
 
 [data_quality]
 late_arrival_rate = 0.05  # 5% de eventos con retraso
-duplicate_rate = 0.02     # 2% de transacciones duplicadas
+duplicate_rate = 0.02     # 2% de duplicados
 ```
 
-## 📊 Características de los Datos
+### Características del generador
 
-### Datos de Calidad Simulados
+El generador crea datos realistas con:
 
-El generador incluye escenarios realistas para probar tu pipeline:
+✅ **Late-arriving data**: 5% de eventos con timestamps retrasados (2-48 horas)  
+✅ **Duplicados**: 2% de transacciones duplicadas (mismo transaction_id)  
+✅ **Datos relacionados**: Eventos y transacciones vinculados a sesiones válidas  
+✅ **Variedad**: Múltiples tipos de eventos, países, dispositivos, monedas  
 
-- **Late-arriving data**: 5% de eventos con timestamps retrasados (2-48 horas)
-- **Duplicados**: 2% de transacciones duplicadas (mismo transaction_id)
-- **Datos relacionados**: Eventos y transacciones vinculados a sesiones y usuarios válidos
-
-### Estructura de Datos
+### Estructura de datos generados
 
 #### Users (CSV)
 ```csv
@@ -292,9 +369,9 @@ USR_00001,2024-03-15 14:23:00,iOS,PE
 USR_00002,2024-05-20 09:15:00,Android,US
 ```
 
-#### Events (JSONL)
+#### Events (JSON Lines)
 ```json
-{"event_id": "EVT_00000001", "session_id": "SES_000001", "user_id": "USR_00001", "event_type": "page_view", "event_timestamp": "2024-11-15T14:30:00", "event_details": {"page_url": "/page/12", "referrer": "google"}}
+{"event_id": "EVT_00000001", "session_id": "SES_000001", "user_id": "USR_00001", "event_type": "page_view", "event_timestamp": "2024-11-15T14:30:00", "event_details": {"page_url": "/page/12"}}
 ```
 
 #### Transactions (CSV)
@@ -303,27 +380,174 @@ transaction_id,session_id,user_id,amount,currency,transaction_timestamp
 TXN_0000001,SES_000123,USR_00045,1250.50,USD,2024-11-15 14:45:00
 ```
 
-## 🔍 Validación de Datos
+## ✨ Features Implementadas
 
-Para verificar que los datos se generaron correctamente:
+### Data Engineering
+- ✅ Medallion Architecture (Bronze/Silver/Gold)
+- ✅ Apache Iceberg (ACID transactions)
+- ✅ Time Travel & Snapshots
+- ✅ Schema Evolution
+- ✅ Hidden Partitioning
 
-```python
-import pandas as pd
-import json
+### Data Quality
+- ✅ Deduplicación automática
+- ✅ Validación de schemas
+- ✅ Null checks
+- ✅ Quarantine de datos corruptos
+- ✅ Data Quality rules
 
-# Verificar usuarios
-users = pd.read_csv('data/users.csv')
-print(f"Total usuarios: {len(users)}")
-print(f"Países únicos: {users['country'].nunique()}")
+### Pipeline Features
+- ✅ MERGE idempotente (maneja late-arriving data)
+- ✅ Logging con colores
+- ✅ Modular y testeable
+- ✅ Error handling robusto
 
-# Verificar eventos
-with open('data/events.jsonl', 'r') as f:
-    events = [json.loads(line) for line in f]
-print(f"Total eventos: {len(events)}")
+## 📝 Justificación Técnica
 
-# Verificar transacciones
-txns = pd.read_csv('data/transactions.csv')
-print(f"Total transacciones: {len(txns)}")
-print(f"Duplicados detectados: {txns.duplicated(subset=['transaction_id']).sum()}")
+### ¿Por qué Iceberg?
+
+- **ACID Transactions**: MERGE idempotente para late-arriving data
+- **Time Travel**: Rollback instantáneo si metemos datos malos
+- **Schema Evolution**: Agregar columnas sin reescribir tabla completa
+- **Hidden Partitioning**: Usuarios no necesitan saber cómo está particionado
+
+### ¿Por qué PySpark?
+
+- **Escalabilidad**: Maneja millones de registros con joins complejos
+- **Expresividad**: API SQL + DataFrame API
+- **Ecosistema**: Integración nativa con Iceberg, Parquet, Delta Lake
+
+# Parte 3: Estrategia de IA/ML
+
+## 1. Infraestructura para ML - Detección de Fraude en Tiempo Real
+
+### Cambios Necesarios en la Arquitectura
+
+#### A. Feature Store
+
+**Problema:** 
+La tabla Gold actualiza en batch. Para fraude real-time necesitamos features en milisegundos.
+
+**Solución: Feature Store con dos capas**
+
+- **Online Store (DynamoDB):** Features pre-calculadas por usuario, latencia <5ms, TTL 30 días
+- **Offline Store (Iceberg):** Ya lo tenemos, sirve para training e histórico
+
+**Features clave:**
+- Behavioral: sessions_24h, spent_24h, distinct_devices_24h, distinct_countries_24h
+- Velocity: transactions_last_hour, amount_deviation_from_avg
+- Account: days_since_signup, lifetime_value, chargeback_rate
+
+**Integración:**
+- Batch: Glue ETL calcula desde Gold → Offline Store (ya existe)
+- Stream: Kinesis → Lambda nueva → Online Store (a construir)
+
+#### B. Pipeline de Inferencia
+
+**Flujo:**
+```
+Kinesis → Lambda (get features) → SageMaker Endpoint → Decision
+  - Score > 0.8: BLOCK + alerta
+  - 0.5-0.8: REVIEW manual  
+  - < 0.5: APPROVE
 ```
 
+**Target: <200ms end-to-end**
+
+**Componentes nuevos:**
+- DynamoDB Online Store (~$25/mes)
+- SageMaker Endpoint ml.t3.medium (~$50/mes)
+- Lambda orchestration (~$10/mes)
+
+#### C. Qué reutilizamos vs qué construimos
+
+**Ya tenemos:**
+- Kinesis (agregar consumer)
+- Iceberg Gold (Offline Store)
+- Glue ETL (feature engineering)
+
+**A construir:**
+- Branch del Kinesis para ML
+- Online Store (DynamoDB)
+- Lambda + SageMaker pipeline
+
+**Costo aproximado:** ~$200/mes operacional
+
+---
+
+## 2. Uso de GenAI en Data Engineering
+
+### Agente de Productividad Integrado
+
+#### A. Documentación Automática
+
+**Flujo:**
+Pipeline crea tabla → EventBridge → Lambda → Claude (Bedrock) → Genera docs → S3 + Glue Catalog
+
+**Input al agente:**
+- Schema de la tabla
+- Sample data
+- Contexto del pipeline
+
+**Output:**
+- Business description por columna
+- Data dictionary
+- Reglas de calidad recomendadas
+- Queries de ejemplo
+
+
+#### B. Generación de Tests
+
+El agente analiza schema + stats y genera pytest para:
+- Schema compliance
+- Rangos válidos
+- Relaciones entre columnas
+- Duplicados
+
+#### C. NLP-to-SQL
+
+**Caso:** Analista pregunta "¿Cuál es el país con mayor conversión en diciembre?"
+
+**Agente:**
+1. Identifica tabla y columnas necesarias
+2. Genera SQL optimizado
+3. Explica la query
+4. Ejecuta en Athena
+5. Visualiza en QuickSight
+
+#### D. Debugging Inteligente
+
+**Flujo:**
+Job falla → CloudWatch → Lambda → Claude analiza logs + config + schema → Genera:
+- Root cause
+- Probable issue
+- Fix sugerido
+- Link a docs
+
+Todo a Slack en 30 segundos.
+
+---
+
+### Impacto Medible
+
+**ML Fraude:**
+- Latencia: horas → <200ms
+- ROI: 1% fraude prevenido >> $200/mes infra
+- Modelo mejora continuamente con feedback
+
+**GenAI Productividad:**
+- Documentación: -100% tiempo manual
+- Tests: -60% tiempo, mejor coverage
+- Debugging: -50% tiempo
+- Democratización: analistas autónomos
+
+**Total: ~30% productividad ganada**
+
+**Riesgos:**
+- Costo APIs: rate limits + caching
+- Calidad IA: human-in-the-loop para outputs críticos
+- Latencia ML: monitoreo + contingencia
+
+**Métricas éxito:**
+- GenAI: -80% tiempo docs, >70% test coverage, -50% debugging
+- ML: <200ms p99, <5% false positives, +30% fraude detectado
