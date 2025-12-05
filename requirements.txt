@@ -11,3 +11,28 @@ great-expectations==0.18.8
 
 # Utilities
 python-dateutil==2.8.2
+
+# PySpark con soporte Iceberg
+pyspark==3.5.0
+
+# Iceberg Spark Runtime
+# Descargar: https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.4.3/
+# iceberg-spark-runtime-3.5_2.12-1.4.3.jar
+
+# Data processing
+pandas==2.1.4
+pyarrow==14.0.1
+
+# Utilities
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# Testing
+pytest==7.4.3
+pytest-spark==0.6.0
+
+# Logging
+colorlog==6.8.0
+
+# Notebook
+jupyter==1.0.0

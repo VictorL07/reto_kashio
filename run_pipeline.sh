@@ -42,6 +42,12 @@ if [ -d "venv" ]; then
     source venv/bin/activate
 fi
 
+
+# Generar datos
+cd data/generator
+python main_source.py
+cd ../..
+
 # Copiar datos generados a Bronze
 echo "📦 Copying generated data to Bronze layer..."
 mkdir -p data/lakehouse/bronze/events

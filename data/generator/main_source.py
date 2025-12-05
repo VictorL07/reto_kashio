@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 class MockDataGenerator:
     """Generator for mock data across multiple sources"""
     
-    def __init__(self, output_dir: str = "data"):
+    def __init__(self, output_dir: str = "data/generator"):
         """
         Initialize the data generator
         
