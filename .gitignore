@@ -1,0 +1,44 @@
+# Data Lake - No versionar datos generados
+data/lakehouse/bronze/
+data/lakehouse/silver/
+data/lakehouse/gold/
+
+# Pero sí versionar la estructura de carpetas
+!data/lakehouse/bronze/.gitkeep
+!data/lakehouse/silver/.gitkeep
+!data/lakehouse/gold/.gitkeep
+
+# Datos generados por el mock generator
+data/generator/data_test/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Spark
+metastore_db/
+derby.log
+spark-warehouse/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
